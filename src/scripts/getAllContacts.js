@@ -1,10 +1,12 @@
 import fs from "fs/promises";
+import path from "path";
 
 export const getAllContacts = async () => {
   try {
-    const data = await fs.readFile("./path/to/contacts.json", "utf8");
-    const parsedData = JSON.parse(data);
-    return parsedData;
+    const filePath = path.resolve("src/db/db.json");
+    const data = await fs.readFile(filePath, "utf8");
+    const contacts = JSON.parse(data);
+    return contacts;
   } catch (error) {
     if (error instanceof SyntaxError) {
       console.error("Invalid JSON format:", error.message);
@@ -14,3 +16,7 @@ export const getAllContacts = async () => {
     throw new Error(error.message);
   }
 };
+
+getAllContacts()
+  .then((contacts) => console.log(contacts))
+  .catch((error) => console.error("Error:", error.message));

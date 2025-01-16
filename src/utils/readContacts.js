@@ -1,13 +1,14 @@
-import { PATH_DB } from "../constants/contacts.js";
-import fs from "node:fs/promises";
+import fs from "fs/promises";
+import path from "path";
 
-export const readContacts = async () => {
+const filePath = path.resolve("src/db/db.json");
+
+export async function readContacts() {
   try {
-    const data = await fs.readFile(PATH_DB, { encoding: "utf-8" });
-
+    const data = await fs.readFile(filePath, "utf8");
     return JSON.parse(data);
   } catch (error) {
     console.error("Error reading contacts:", error.message);
-    throw new Error("Failed to read contacts");
+    throw error;
   }
-};
+}
